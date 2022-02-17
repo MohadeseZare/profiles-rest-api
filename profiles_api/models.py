@@ -4,9 +4,9 @@ from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
 
 
-class UserProfileManager():
+class UserProfileManager(BaseUserManager):
     """Manager for user profiles"""
-    def Create_user(self,email,name,password=None):
+    def create_user(self,email,name,password=None):
         """Create a new user profile"""
         if not email:
             raise ValueError('user must have an email address .')
@@ -19,9 +19,9 @@ class UserProfileManager():
 
         return user
 
-    def Create_Superuser(self,email,name,password) :
+    def create_superuser(self,email,name,password) :
       """Create and save a new Superuser with given details"""
-      user=self.Create_user(email,name,password)
+      user = self.create_user(email,name,password)
       user.is_superuser=True
       user.is_staff=True
       user.save(using=self._db)
@@ -39,7 +39,7 @@ class UserProfile(AbstractBaseUser,PermissionsMixin):
     objects = UserProfileManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIRLDS = ['name']
+    REQUIRED_FIELDS = ['name']
 
     def get_full_name(self):
         """Retrieve full name of user"""
