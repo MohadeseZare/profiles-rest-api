@@ -11,7 +11,7 @@ class HelloApiView(APIView):
     def get(self,request,format=None):
         """Returns a list of APIView features"""
         an_apiview=[
-        'Uses HTTP methods as function (get,post,patch,put,delete)',
+        'Uses HTTP me thods as function (get,post,patch,put,delete)',
         'Is similar to a traditional Django View',
         'Gives you the most control over you application logic',
         'Is mapped manually to URLs',
@@ -47,7 +47,10 @@ class HelloApiView(APIView):
 
 class HelloViewSet(viewsets.ViewSet):
     """Test API ViewSet."""
-    def List(self, request):
+    serializer_class = serializers.HelloSerializer
+
+    def get(self,request,format=None):
+        """Return a hello message"""
         a_viewset = [
         'User actions (list, create,retrieve ,update, partial_update)',
         'Automatically maps to URLs using Routers',
@@ -55,6 +58,7 @@ class HelloViewSet(viewsets.ViewSet):
         ]
 
         return Response({'message': 'Hello','a_viewset': a_viewset})
+
     def create(self,request):
           """Create a new hello message"""
           serializer = self.serializer_class(data=request.data)
@@ -67,18 +71,23 @@ class HelloViewSet(viewsets.ViewSet):
               return Response(serializer.errors,
               status=status.HTTP_400_BAD_REQUEST
               )
+
     def retrieve(self,request,pk=None):
            """Handels getting an object by its ID"""
+
            return Response({'http_method': 'GET'})
 
     def update(self,request,pk=None):
            """Handels getting an object by its ID"""
+
            return Response({'http_method': 'PUT'})
 
     def partial_update(self,request,pk=None):
            """Handels getting an object by its ID"""
+
            return Response({'http_method': 'PATCH'})
 
-    def destory(self,request,pk=None):
+    def delete(self,request,pk=None):
            """Handels getting an object by its ID"""
+
            return Response({'http_method': 'DELETE'})
